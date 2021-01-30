@@ -52,7 +52,7 @@ namespace API.Controllers
             // validate if consecutive attempts are linked
             var attemptsFile = _attemptsConfig.Value.FilePath + _attemptsConfig.Value.FileName;
             var attemptsWithinGivenTime = await _attemptsService.GetAttempts(attemptsFile, 30);
-            if (attemptsWithinGivenTime.Count >= 2)
+            if (attemptsWithinGivenTime.Count > 2)
             {
                 var attemptsAreLinked = _attemptsService.CheckIfLinking(tfnNumber, attemptsWithinGivenTime);
                 if (attemptsAreLinked)

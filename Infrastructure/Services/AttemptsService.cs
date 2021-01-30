@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Errors;
 using Core.Interfaces;
 
 namespace Infrastructure.Services
@@ -15,7 +17,7 @@ namespace Infrastructure.Services
         {
             if (!File.Exists(file))
             {
-                return null;
+                throw new RestException(HttpStatusCode.InternalServerError, new { Error = "Internal Server Error: Please try again after a while" });
             }
 
             var attemptsData = await File.ReadAllLinesAsync(file);
@@ -44,7 +46,7 @@ namespace Infrastructure.Services
             var isLinking = new List<bool>();
 
             // Iterate backwards
-            for (int attempt = previousAttempts.Count -1; attempt >= 0; attempt--)
+            for (int attempt = previousAttempts.Count - 1; attempt >= 0; attempt--)
             {
                 nextValue = previousAttempts[attempt];
                 var linked = false;
@@ -67,11 +69,13 @@ namespace Infrastructure.Services
 
         public void AddAttempt(string file, string tfnNumber)
         {
-            if (File.Exists(file))
+            if (!File.Exists(file))
             {
-                File.AppendAllText(file,
-                   DateTime.Now.ToString() + "|" + tfnNumber + Environment.NewLine);
+                throw new RestException(HttpStatusCode.InternalServerError, new { Error = "Internal Server Error: Please try again after a while" });
             }
+
+            File.AppendAllText(file,
+                   DateTime.Now.ToString() + "|" + tfnNumber + Environment.NewLine);
         }
     }
 }

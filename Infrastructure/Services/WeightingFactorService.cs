@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using Core.Errors;
 using Core.Interfaces;
 
 namespace Infrastructure.Services
@@ -12,7 +14,7 @@ namespace Infrastructure.Services
             var weightFactors = new List<KeyValuePair<int, int>>();
             if (!File.Exists(file))
             {
-                return null;
+                throw new RestException(HttpStatusCode.InternalServerError, new { Error = "Internal Server Error: Please try again after a while" });
             }
 
             var lines = File.ReadLines(file);
