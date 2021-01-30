@@ -1,0 +1,8 @@
+namespace API.Configurations
+{
+    public class AttemptsConfigurations
+    {
+        public string FilePath { get; set; }
+        public string FileName { get; set; }
+    }
+}
