@@ -29,7 +29,7 @@ namespace API.Controllers
             _tfnService = tfnService;
         }
 
-        [HttpGet("{tfnNumber}")]
+        [HttpPost("{tfnNumber}")]
         public async Task<IActionResult> GetTFNValidations(string tfnNumber)
         {
             bool isValid = false;
