@@ -10,7 +10,7 @@ axios.interceptors.response.use(undefined, (error) => {
     if (error.message === 'Network Error' && !error.response) {
       toast.error('Network error - make sure API is running');
     }
-    const { status, data } = error.response;
+    const { status } = error.response;
     if (status === 404) {
       toast.error('Network error - request not found');
     }
