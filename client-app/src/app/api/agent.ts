@@ -15,8 +15,7 @@ axios.interceptors.response.use(undefined, (error) => {
       toast.error('Network error - request not found');
     }
     if (status === 400) {
-        window.alert(data);
-        toast.error('Bad request');
+        toast.error('Validation tool does not allow multiple attempts within a give time frame');
     }
     if (status === 500) {
       toast.error('Server error - check the terminal for more info!');
