@@ -1,11 +1,11 @@
+import React from 'react';
 import HomePage from '../../features/home/HomePage';
+import { Toaster } from 'react-hot-toast';
 
-function App() {
+function App () {
   return (
     <div className="App">
-      <header className="masthead">
-        <p>Hello</p>
-      </header>
+      <Toaster />
       <HomePage/>
     </div>
   );

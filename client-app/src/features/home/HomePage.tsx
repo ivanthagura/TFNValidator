@@ -4,7 +4,7 @@ import TFNForm from '../tfnForm/TFNForm';
 function HomePage() {
     return(
         <>
-            <p>Home Page</p>
+            <p>Tax file validator</p>
             <TFNForm/>
         </>
     );

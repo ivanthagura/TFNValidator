@@ -2,17 +2,24 @@ import React from 'react';
 import agent from '../../app/api/agent';
 import { Form, Field } from 'react-final-form';
 import { ITFN } from '../../app/models/tfn';
+import toast from 'react-hot-toast';
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-
-async function onSubmit(values: any) {
-    await sleep(300)
-
-    const { taxFileNumber } = values;
+async function onSubmit( { taxFileNumber }: any) {
+  // validate tfn length
+  if(taxFileNumber.length >=8  && taxFileNumber.length <= 9) {
     const tfn: ITFN = {tfnNumber : taxFileNumber};
-    const response = await agent.TFN.validate(tfn);
+    const { tfnIsValid } = await agent.TFN.validate(tfn);
 
-    window.alert(response);
+    if(tfnIsValid) {
+      toast.success(`${taxFileNumber} is a valid Tax file number`);
+    }
+    else {
+      toast.error(`${taxFileNumber} is an invalid Tax file number`);
+    }
+  }
+  else {
+    toast.error(`Tax file number should contain 8 or 9 charachters`);
+  }
 }
 
 export default function TFNForm () {
@@ -26,7 +33,7 @@ export default function TFNForm () {
                     <Field
                       name="taxFileNumber"
                       component="input"
-                      type="text"
+                      type="number"
                       placeholder="Tax File Number"
                     />
                   </div>

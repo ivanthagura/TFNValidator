@@ -38,14 +38,14 @@ namespace API.Controllers
             // validate if tfn is numbers
             if (!isNumeric)
             {
-                ModelState.AddModelError("Invalid TFN number format", "The TFN number should only contain numerals");
+                ModelState.AddModelError("Error", "The TFN number should only contain numerals");
                 return BadRequest(ModelState);
             }
 
             // tfn should only contain 8 or 9 digits
             if (!(tfnNumber.Length == (int)Digits.Eight || tfnNumber.Length == (int)Digits.Nine))
             {
-                ModelState.AddModelError("Invalid TFN number length", $"The TFN number should only contain {Digits.Eight} or {Digits.Nine} digits");
+                ModelState.AddModelError("Error", $"The TFN number should only contain {Digits.Eight} or {Digits.Nine} digits");
                 return BadRequest(ModelState);
             }
 
@@ -57,7 +57,7 @@ namespace API.Controllers
                 var attemptsAreLinked = _attemptsService.CheckIfLinking(tfnNumber, attemptsWithinGivenTime);
                 if (attemptsAreLinked)
                 {
-                    ModelState.AddModelError("Multiple attempts detected", "Validation tool does not allow multiple attempts within a give time frame");
+                    ModelState.AddModelError("Error", "Validation tool does not allow multiple attempts within a give time frame");
                     return BadRequest(ModelState);
                 }
             }
@@ -73,7 +73,7 @@ namespace API.Controllers
 
             _attemptsService.AddAttempt(attemptsFile, tfnNumber);
 
-            return Ok(isValid);
+            return Ok(new { TfnIsValid = isValid });
         }
     }
 }
